@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Bootstrap CSS file-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!--External CSS file-->
+        <link rel="stylesheet" type="text/css" href="style.css">
+        
+    </head>
+    <body>
+
+        <div class='container'>
+            <h1> Xì Dách! </h1>
+            <h4 id='result'> </h4>
+            
+            <div class='background'>
+                <div class='main'>
+                    <div class='your-box'>
+                        <h3> Bạn: <span id='your-score' class='score'> 0 </span> </h3>
+                        
+                    </div>
+                    
+                    <div class='bot-box'>
+                        <h3> Máy: <span id='bot-score' class='score'> 0 </span> </h3>
+                    </div>
+                </div>
+                
+                <div class='btn-box'>
+                    <button id = 'start' class='btn btn-primary' onclick='gameStart(you)'> Bốc </button>
+                    <button id = 'hit' class='btn btn-primary' onclick='gameHit(you)' style='display:none'> Rút </button>
+                    <button class='btn btn-warning mr-2 ml-2' onclick='gameStand()'> Dằn </button>
+                    <button class='btn btn-danger' onclick='gameReset()'> Chơi lại </button>
+                </div>
+            </div>
+        </div>
+
+        <!--External JS file-->
+        <script src='main.js'>  </script>
+        
+    </body> 
+</html>
