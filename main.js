@@ -1,6 +1,4 @@
-const defaultCards = ["A", "K", "2", "3"].flatMap(i => [i,i,i,i]);
-
-//const defaultCards = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'].flatMap(i => [i,i,i,i]);
+const defaultCards = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'].flatMap(i => [i,i,i,i]);
 const cardsValue = {
           'A': 11,
           '2': 2, '3': 3,
@@ -14,7 +12,8 @@ const cardsValue = {
 // Âm thanh
 const hitSound = new Audio('assets/sounds/swish.m4a')
       winSound = new Audio('assets/sounds/win.mp3')
-      loseSound = new Audio('assets/sounds/lose.mp3');
+      loseSound = new Audio('assets/sounds/lose.mp3')
+      bustSound = new Audio('/assets/sounds/bust.mp3');
 // Bài của từng player đang có
 let yourCards = []
     botCards = [];
@@ -108,11 +107,13 @@ function updateScore(player) {
     else if (player.score >= 28) {
         document.querySelector(player.scoreSpan).textContent = 'CÒN CÁI NỊT';
         document.querySelector(player.scoreSpan).style.color = 'crimson';
+        bustSound.play();
     }
     // quắc
     else if (player.score > 21) {
         document.querySelector(player.scoreSpan).textContent = 'QUẮC';
         document.querySelector(player.scoreSpan).style.color = 'red';
+        bustSound.play();
     }
     // bình thường
     else {
