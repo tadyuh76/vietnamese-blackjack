@@ -1,4 +1,6 @@
-const defaultCards = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'].flatMap(i => [i,i,i,i]);
+const defaultCards = ["A", "K", "2", "3"].flatMap(i => [i,i,i,i]);
+
+//const defaultCards = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'].flatMap(i => [i,i,i,i]);
 const cardsValue = {
           'A': 11,
           '2': 2, '3': 3,
@@ -79,11 +81,8 @@ function createCard(player) {
 }
 
 function aceValue(player, card) {
-    if (player.score + cardsValue[card] > 21) {
-        cardsValue['A'] = 10;
-    } if (player.score + cardsValue[card] > 21) {
-        cardsValue['A'] = 1;
-    }
+    if (player.score + cardsValue[card] > 21) {cardsValue['A'] = 10;}
+    if (player.score + cardsValue[card] > 21 || updateScore(player) === "NL") {cardsValue['A'] = 1;}
 }
 
 function updateScore(player) {
@@ -123,14 +122,19 @@ function updateScore(player) {
 
 let stand;
 function gameStand() {
-    if (you.score < 16) {
+    if (you.score < 16 && you.cards.length != 5) {
         result.textContent = "Bài Non!";
         result.style.color = "red";
-        return 0; // Dừng hàm để không cho máy bốc bài nữa
+        // Dừng hàm để không cho máy bốc bài
+        return 0;
     }
-    
     // Máy bốc 2 lá bài
     gameStart(bot);
+    if (updateScore(you) == "XB") {
+      decideWinner();
+      return 0;
+    }
+
     
     // Máy luôn rút khi dưới 16 nút
     while (bot.score < 16) {
@@ -149,23 +153,24 @@ function gameStand() {
 }
 
 function decideWinner() {
-    if (you.score <= 21 && bot.score <= 21) {
-        if (you.score === bot.score) {
-            result.textContent = "Hòa";
-        }
-        else if (you.score > bot.score || updateScore(you) === "XD" || updateScore(you) === "XB" || updateScore(you) === "NL") {
-            result.textContent = "Bạn Thắng 🎉";
-        }
-        else {result.textContent = "Bạn Thua 😶";}
+  if (you.score <= 21 && bot.score <= 21) {
+    if (you.score === bot.score) {
+      result.textContent = "Hòa";
     }
-    // Nếu cả hai cùng quắc
-    else if (you.score > 21 && bot.score > 21) {result.textContent = "Quắc Hòa 🥴";}
-    // Nếu người quắc => máy win
-    else if (bot.score > 21) {result.textContent = "Bạn Thắng 🎉";}
-    // Máy quắc
+    else if (updateScore(bot) != "NL" && ((updateScore(you) === "XD" && updateScore(bot) != "XB") || updateScore(you) === "XB" || (updateScore(you) === "NL" && (updateScore(bot) != "XD" || updateScore(bot) != "XB")) || you.score > bot.score))  {
+      result.textContent = "Bạn Thắng 🎉";
+    }
     else {result.textContent = "Bạn Thua 😶";}
+  }
+  
+  // Nếu cả hai cùng quắc
+  else if (you.score > 21 && bot.score > 21) { result.textContent = "Quắc Hòa 🥴"; }
+  // Nếu người quắc => máy win
+  else if (bot.score > 21) { result.textContent = "Bạn Thắng 🎉"; }
+  // Máy quắc
+  else { result.textContent = "Bạn Thua 😶"; }
 
-    gameSoundColor();
+  gameSoundColor();
 }
 
 function gameReset() {
